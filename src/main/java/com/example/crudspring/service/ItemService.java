@@ -25,16 +25,15 @@ public class ItemService {
         return itemRepo.findById(id);
     }
 
-    public Item updateItem(String id, Item newItem){
-        Optional<Item> old = itemRepo.findById(id);
-        if(old.isPresent()){
-            Item i = old.get();
-            i.setTitle(newItem.getTitle());
-            i.setNote(newItem.getNote());
-            i.setDays(newItem.getDays());
-            return itemRepo.save(i);
-        }
-        else {
+    public Item updateItem(String id, Item updatedItem) {
+        Optional<Item> existingItemOpt = itemRepo.findById(id);
+        if (existingItemOpt.isPresent()) {
+            Item existingItem = existingItemOpt.get();
+            existingItem.setTitle(updatedItem.getTitle());
+            existingItem.setNote(updatedItem.getNote());
+            existingItem.setDays(updatedItem.getDays());
+            return itemRepo.save(existingItem); // Save the updated item to the database
+        } else {
             return null;
         }
     }
